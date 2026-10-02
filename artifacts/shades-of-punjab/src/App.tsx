@@ -25,7 +25,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 const queryClient = new QueryClient();
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 const clerkPubKey = publishableKeyFromHost(window.location.hostname, import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
-const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
+const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL || undefined;
 if (!clerkPubKey) throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY in .env file');
 const heroFallback = `${basePath}/punjab-editorial-hero.jpg`;
 const defaultBrand = 'Shades of Punjab';
@@ -207,7 +207,7 @@ function HomePage() {
       <div className="content-width">
         <div className="section-heading"><div><span className="eyebrow">Selected for you</span><h2>{settings?.featuredCollectionTitle || 'The latest edit'}</h2>{settings?.featuredCollectionDescription && <p>{settings.featuredCollectionDescription}</p>}</div><Link href="/collections/featured" className="text-link" data-testid="link-featured-collection">View collection <ArrowRight size={15}/></Link></div>
         {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/></div> : isError ? <ErrorState retry={() => { void refetch(); }}/> :
-          products?.some((p) => p.isFeatured) ? <div className="product-grid">{products.filter((p) => p.isFeatured).slice(0, 4).map((p) => <ProductCard key={p.id} product={p}/>)}</div> : <EmptyProducts/>}
+          Array.isArray(products) && products.some((p) => p.isFeatured) ? <div className="product-grid">{products.filter((p) => p.isFeatured).slice(0, 4).map((p) => <ProductCard key={p.id} product={p}/>)}</div> : <EmptyProducts/>}
       </div>
     </section>
     <section className="story-band">
@@ -234,9 +234,9 @@ function ShopPage() {
       <label className="search-box"><Search size={18}/><span className="sr-only">Search clothing</span><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search clothing" data-testid="input-product-search"/></label>
       <label className="select-wrap"><span className="sr-only">Filter by category</span><select value={category} onChange={(e) => setCategory(e.target.value)} data-testid="select-category"><option value="">All categories</option>{(categories || []).map((c) => <option key={c} value={c}>{c}</option>)}</select><ChevronDown size={15}/></label>
       <label className="select-wrap"><span className="sr-only">Sort products</span><select value={sort} onChange={(e) => setSort(e.target.value)} data-testid="select-sort"><option value="featured">Featured</option><option value="newest">Newest</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select><ChevronDown size={15}/></label>
-      <span className="result-count" data-testid="text-result-count">{products?.length || 0} pieces</span>
+      <span className="result-count" data-testid="text-result-count">{Array.isArray(products) ? products.length : 0} pieces</span>
     </div>
-    {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/><Loading/></div> : isError ? <ErrorState retry={() => { void refetch(); }}/> : products?.length ?
+    {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/><Loading/></div> : isError ? <ErrorState retry={() => { void refetch(); }}/> : Array.isArray(products) && products.length ?
       <div className="product-grid catalog-grid">{products.map((product) => <ProductCard key={product.id} product={product}/>)}</div> : <EmptyProducts query={query}/>}
   </main></Shell>;
 }
@@ -266,7 +266,7 @@ function ProductPage() {
 
 function StoresPage() {
   const { data: stores, isLoading, isError, refetch } = useListStores();
-  const displayStores = stores?.length ? stores : [
+  const displayStores = Array.isArray(stores) && stores.length ? stores : [
     { id: -1, name: 'Jamshedpur location 01', address: null, phone: null, whatsapp: null, openingHours: null, mapsUrl: null, imageUrl: null, description: null },
     { id: -2, name: 'Jamshedpur location 02', address: null, phone: null, whatsapp: null, openingHours: null, mapsUrl: null, imageUrl: null, description: null },
   ] as Store[];
@@ -303,7 +303,7 @@ function CollectionPage() {
   const { data: products, isLoading, isError, refetch } = useListProducts({ collection: slug === 'featured' ? undefined : slug, sort: 'featured' });
   const title = slug === 'featured' ? settings?.featuredCollectionTitle || 'The collection' : slug.replace(/-/g, ' ');
   return <Shell><main className="content-width page-shell"><PageIntro eyebrow="The edit" title={title} text={settings?.featuredCollectionDescription || 'A collection curated by Shades of Punjab.'}/>
-    {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/></div> : isError ? <ErrorState retry={() => { void refetch(); }}/> : products?.filter((p) => slug !== 'featured' || p.isFeatured).length ? <div className="product-grid">{products.filter((p) => slug !== 'featured' || p.isFeatured).map((p) => <ProductCard product={p} key={p.id}/>)}</div> : <EmptyProducts/>}
+    {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/></div> : isError ? <ErrorState retry={() => { void refetch(); }}/> : Array.isArray(products) && products.filter((p) => slug !== 'featured' || p.isFeatured).length ? <div className="product-grid">{products.filter((p) => slug !== 'featured' || p.isFeatured).map((p) => <ProductCard product={p} key={p.id}/>)}</div> : <EmptyProducts/>}
   </main></Shell>;
 }
 
@@ -504,7 +504,7 @@ function Router() {
 }
 function ClerkWithRoutes() {
   const [, setLocation] = useLocation();
-  return <ClerkProvider publishableKey={clerkPubKey} proxyUrl={clerkProxyUrl} appearance={appearance}
+  return <ClerkProvider publishableKey={clerkPubKey} {...(clerkProxyUrl ? { proxyUrl: clerkProxyUrl } : {})} appearance={appearance}
     signInUrl={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`}
     localization={{ signIn: { start: { title: 'Welcome back', subtitle: 'Sign in to your Shades of Punjab account' } }, signUp: { start: { title: 'Create your account', subtitle: 'Join the Shades of Punjab community' } } }}
     routerPush={(to) => setLocation(stripBase(to))}
