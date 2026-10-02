@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm run typecheck:libs && pnpm --filter ./artifacts/shades-of-punjab run build",
+  "outputDirectory": "artifacts/shades-of-punjab/dist",
+  "framework": "vite"
+}
