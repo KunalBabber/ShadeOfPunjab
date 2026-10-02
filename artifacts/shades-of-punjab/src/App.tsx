@@ -196,7 +196,7 @@ const readCart = (): CartItem[] => {
   catch { return []; }
 };
 const money = (value: number | null | undefined) => value == null ? 'Price to be confirmed' : `₹${value.toLocaleString('en-IN')}`;
-const imageFor = (product?: Product | null) => product?.imageUrls?.[0] || '';
+const imageFor = (product?: Product | null) => (Array.isArray(product?.imageUrls) ? product.imageUrls[0] : undefined) || '';
 const parseLines = (value = '') => value.split('\n').map((s) => s.trim()).filter(Boolean);
 
 function useCart() {
@@ -420,16 +420,19 @@ function ProductPage() {
   const cart = useCart();
   const [size, setSize] = useState('');
   const [added, setAdded] = useState(false);
+  const imageUrls = Array.isArray(product?.imageUrls) ? product.imageUrls : [];
+  const colors = Array.isArray(product?.colors) ? product.colors : [];
+  const sizes = Array.isArray(product?.sizes) ? product.sizes : [];
   if (isLoading) return <Shell><main className="content-width page-shell"><Loading/></main></Shell>;
   return <Shell><main className="content-width product-detail">
     <Link href="/shop" className="back-link" data-testid="link-back-shop"><ArrowLeft size={15}/> Back to the edit</Link>
     <div className="product-detail-grid">
-      <div className="product-gallery">{product.imageUrls.length ? product.imageUrls.map((src, i) => <img key={`${src}-${i}`} src={src} alt={`${product.name} ${i + 1}`} data-testid={`img-product-detail-${i}`}/>) : <div className="detail-image-empty">Product photography<br/>awaiting owner upload</div>}</div>
+      <div className="product-gallery">{imageUrls.length ? imageUrls.map((src, i) => <img key={`${src}-${i}`} src={src} alt={`${product.name} ${i + 1}`} data-testid={`img-product-detail-${i}`}/>) : <div className="detail-image-empty">Product photography<br/>awaiting owner upload</div>}</div>
       <div className="product-info"><span className="eyebrow">{product.category || 'Category awaiting confirmation'}</span><h1>{product.name}</h1><p className="detail-price">{money(product.priceInr)}</p><div className="gold-rule"/>
         <p className="detail-description">{product.description || 'Description awaiting owner confirmation.'}</p>
-        {product.colors.length > 0 && <div className="detail-option"><span className="option-label">Colour</span><div className="option-text">{product.colors.join(' · ')}</div></div>}
-        {product.sizes.length > 0 && <fieldset className="detail-option"><legend className="option-label">Select a size</legend><div className="size-list">{product.sizes.map((s) => <button key={s} type="button" className={`size-button ${size === s ? 'selected' : ''}`} onClick={() => setSize(s)} aria-pressed={size === s} data-testid={`button-size-${s}`}>{s}</button>)}</div></fieldset>}
-        {product.stock === 0 ? <p className="stock-note">Currently unavailable. Please check back later.</p> : <><button className="button button-dark full-button" disabled={product.stock == null || (product.sizes.length > 0 && !size)} onClick={() => { cart.add(product, size || undefined); setAdded(true); window.setTimeout(() => setAdded(false), 2200); }} data-testid="button-add-to-bag">{added ? <><Check size={17}/> Added to bag</> : <>Add to bag <ShoppingBag size={16}/></>}</button>{product.stock == null && <p className="verification-note">Availability awaiting owner confirmation.</p>}</>}
+        {colors.length > 0 && <div className="detail-option"><span className="option-label">Colour</span><div className="option-text">{colors.join(' · ')}</div></div>}
+        {sizes.length > 0 && <fieldset className="detail-option"><legend className="option-label">Select a size</legend><div className="size-list">{sizes.map((s) => <button key={s} type="button" className={`size-button ${size === s ? 'selected' : ''}`} onClick={() => setSize(s)} aria-pressed={size === s} data-testid={`button-size-${s}`}>{s}</button>)}</div></fieldset>}
+        {product.stock === 0 ? <p className="stock-note">Currently unavailable. Please check back later.</p> : <><button className="button button-dark full-button" disabled={product.stock == null || (sizes.length > 0 && !size)} onClick={() => { cart.add(product, size || undefined); setAdded(true); window.setTimeout(() => setAdded(false), 2200); }} data-testid="button-add-to-bag">{added ? <><Check size={17}/> Added to bag</> : <>Add to bag <ShoppingBag size={16}/></>}</button>{product.stock == null && <p className="verification-note">Availability awaiting owner confirmation.</p>}</>}
         <p className="verification-note">Availability and product details are provided by the store.</p>
       </div>
     </div>
@@ -546,7 +549,7 @@ function AdminPage() {
   const startProductEdit = (p?: Product) => {
     setEditingProduct(p || null);
     setProductOpen(true);
-    productForm.reset(p ? { name: p.name, slug: p.slug, description: p.description || '', priceInr: p.priceInr == null ? '' : String(p.priceInr), imageUrls: p.imageUrls.join('\n'), sizes: p.sizes.join('\n'), colors: p.colors.join('\n'), category: p.category || '', collection: p.collection || '', stock: p.stock == null ? '' : String(p.stock), isPublished: p.isPublished, isFeatured: p.isFeatured, isNewArrival: p.isNewArrival } : emptyProduct);
+    productForm.reset(p ? { name: p.name, slug: p.slug, description: p.description || '', priceInr: p.priceInr == null ? '' : String(p.priceInr), imageUrls: Array.isArray(p.imageUrls) ? p.imageUrls.join('\n') : '', sizes: Array.isArray(p.sizes) ? p.sizes.join('\n') : '', colors: Array.isArray(p.colors) ? p.colors.join('\n') : '', category: p.category || '', collection: p.collection || '', stock: p.stock == null ? '' : String(p.stock), isPublished: p.isPublished, isFeatured: p.isFeatured, isNewArrival: p.isNewArrival } : emptyProduct);
   };
   const submitStore = (values: StoreFormValues) => {
     const payload = Object.fromEntries(Object.entries(values).map(([key, value]) => [key, value || null]));
