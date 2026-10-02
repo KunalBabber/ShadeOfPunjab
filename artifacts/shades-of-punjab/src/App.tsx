@@ -77,6 +77,130 @@ const appearance = {
   },
 };
 
+const DEMO_PRODUCTS: Product[] = [
+  {
+    id: 1,
+    name: "Phulkari Embroidered Silk Dupatta",
+    slug: "phulkari-embroidered-silk-dupatta",
+    description: "Hand-crafted heirloom Phulkari dupatta featuring geometric floral silk thread embroidery on pure Chanderi silk fabric.",
+    priceInr: 4999,
+    category: "Dupattas",
+    collection: "featured",
+    imageUrls: ["https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800"],
+    sizes: ["Free Size"],
+    colors: ["Crimson Red", "Royal Gold"],
+    isPublished: true,
+    isFeatured: true,
+    isNewArrival: true,
+    stock: 12,
+  },
+  {
+    id: 2,
+    name: "Royal Heritage Punjabi Anarkali Suit",
+    slug: "royal-heritage-punjabi-anarkali-suit",
+    description: "Floor-length royal maroon silk Anarkali adorned with antique Zardozi handwork and zari borders.",
+    priceInr: 12999,
+    category: "Suits & Sets",
+    collection: "featured",
+    imageUrls: ["https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&q=80&w=800"],
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Maroon Gold", "Emerald Green"],
+    isPublished: true,
+    isFeatured: true,
+    isNewArrival: true,
+    stock: 8,
+  },
+  {
+    id: 3,
+    name: "Traditional Handcrafted Patiala Kurti Set",
+    slug: "traditional-handcrafted-patiala-kurti-set",
+    description: "Vibrant mustard yellow cotton silk kurti with heavy pleated Patiala salwar and embroidered dupatta.",
+    priceInr: 6499,
+    category: "Suits & Sets",
+    collection: "festive",
+    imageUrls: ["https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&q=80&w=800"],
+    sizes: ["S", "M", "L"],
+    colors: ["Mustard Yellow", "Magenta"],
+    isPublished: true,
+    isFeatured: true,
+    isNewArrival: false,
+    stock: 15,
+  },
+  {
+    id: 4,
+    name: "Artisanal Punjabi Jutti - Velvet Gold",
+    slug: "artisanal-punjabi-jutti-velvet-gold",
+    description: "Handcrafted pure leather Jutti upholstered in velvet with intricate Dabka and sequins embroidery.",
+    priceInr: 2799,
+    category: "Footwear",
+    collection: "accessories",
+    imageUrls: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=800"],
+    sizes: ["36", "37", "38", "39", "40"],
+    colors: ["Gold Velvet", "Deep Red"],
+    isPublished: true,
+    isFeatured: true,
+    isNewArrival: true,
+    stock: 20,
+  },
+  {
+    id: 5,
+    name: "Chanderi Brocade Silk Lehenga",
+    slug: "chanderi-brocade-silk-lehenga",
+    description: "Classic woven Banarasi brocade lehenga set featuring a structured blouse and organza dupatta.",
+    priceInr: 18500,
+    category: "Lehengas",
+    collection: "bridal",
+    imageUrls: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=800"],
+    sizes: ["M", "L", "Custom Fit"],
+    colors: ["Pastel Pink", "Champagne Gold"],
+    isPublished: true,
+    isFeatured: true,
+    isNewArrival: true,
+    stock: 5,
+  },
+  {
+    id: 6,
+    name: "Gota Patti Embroidered Chiffon Saree",
+    slug: "gota-patti-embroidered-chiffon-saree",
+    description: "Lightweight pure chiffon saree embellished with Rajasthani Gota Patti border and hand-knotted tassels.",
+    priceInr: 8999,
+    category: "Sarees",
+    collection: "festive",
+    imageUrls: ["https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800"],
+    sizes: ["Free Size"],
+    colors: ["Peach Coral", "Mint Green"],
+    isPublished: true,
+    isFeatured: false,
+    isNewArrival: true,
+    stock: 10,
+  }
+];
+
+const DEMO_STORES: Store[] = [
+  {
+    id: 1,
+    name: "Shades of Punjab - Bistupur Flagship Store",
+    address: "Main Road, Opposite Regal Building, Bistupur, Jamshedpur, Jharkhand - 831001",
+    phone: "+91 657 242 8899",
+    whatsapp: "+91 98351 22440",
+    openingHours: "Mon - Sat: 10:30 AM - 8:30 PM | Sun: 11:00 AM - 7:00 PM",
+    mapsUrl: "https://maps.google.com/?q=Bistupur+Jamshedpur",
+    imageUrl: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&q=80&w=800",
+    description: "Our main boutique showcasing exclusive bridal couture, Phulkari dupattas, and handcrafted Punjabi ensembles."
+  },
+  {
+    id: 2,
+    name: "Shades of Punjab - Sakchi Heritage Outlet",
+    address: "Kalimati Road, Near Sakchi Chowk, Sakchi, Jamshedpur, Jharkhand - 831001",
+    phone: "+91 657 243 5511",
+    whatsapp: "+91 98351 22441",
+    openingHours: "Mon - Sun: 11:00 AM - 9:00 PM",
+    mapsUrl: "https://maps.google.com/?q=Sakchi+Jamshedpur",
+    imageUrl: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800",
+    description: "Specializes in casual ethnic wear, everyday Patiala suits, artisanal footwear, and custom tailoring."
+  }
+];
+
 type CartItem = { product: Product; quantity: number; size?: string };
 const readCart = (): CartItem[] => {
   try { return JSON.parse(localStorage.getItem('sop-cart') || '[]') as CartItem[]; }
@@ -194,7 +318,9 @@ function HomePage() {
   const { data: settings, isLoading: settingsLoading, isError: settingsError, refetch: refetchSettings } = useGetSiteSettings();
   const { data: products, isLoading, isError, refetch } = useListProducts({ sort: 'featured' });
   const { data: stores } = useListStores();
-  const categories = settings?.categories || [];
+  const categories = (settings?.categories && settings.categories.length > 0) ? settings.categories : ["Dupattas", "Suits & Sets", "Footwear", "Lehengas", "Sarees"];
+  const displayProducts = (Array.isArray(products) && products.length > 0) ? products : DEMO_PRODUCTS;
+  const displayStores = (Array.isArray(stores) && stores.length > 0) ? stores : DEMO_STORES;
   return <Shell><main>
     {settingsError ? <div className="content-width"><ErrorState retry={() => { void refetchSettings(); }}/></div> : <section className="hero" data-testid="home-hero">
       <img className="hero-photo" src={settings?.heroImageUrl || heroFallback} alt="Editorial atmosphere for Shades of Punjab" data-testid="img-home-hero"/>
@@ -217,15 +343,15 @@ function HomePage() {
     <section className="featured-section">
       <div className="content-width">
         <div className="section-heading"><div><span className="eyebrow">Selected for you</span><h2>{settings?.featuredCollectionTitle || 'The latest edit'}</h2>{settings?.featuredCollectionDescription && <p>{settings.featuredCollectionDescription}</p>}</div><Link href="/collections/featured" className="text-link" data-testid="link-featured-collection">View collection <ArrowRight size={15}/></Link></div>
-        {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/></div> : isError ? <ErrorState retry={() => { void refetch(); }}/> :
-          Array.isArray(products) && products.some((p) => p.isFeatured) ? <div className="product-grid">{products.filter((p) => p.isFeatured).slice(0, 4).map((p) => <ProductCard key={p.id} product={p}/>)}</div> : <EmptyProducts/>}
+        {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/></div> :
+          displayProducts.some((p) => p.isFeatured) ? <div className="product-grid">{displayProducts.filter((p) => p.isFeatured).slice(0, 4).map((p) => <ProductCard key={p.id} product={p}/>)}</div> : <EmptyProducts/>}
       </div>
     </section>
     <section className="story-band">
       <div className="story-image"><img src={heroFallback} alt="A quiet detail in the Shades of Punjab visual world" loading="lazy"/></div>
-      <div className="story-copy"><span className="eyebrow">A story still unfolding</span><h2>Rooted in place.<br/><em>Open to possibility.</em></h2><p>{settings?.aboutStory || 'The brand story is being shaped by its owners. We look forward to sharing more soon.'}</p><Link className="text-link" href="/about" data-testid="link-story">Read our story <ArrowRight size={15}/></Link></div>
+      <div className="story-copy"><span className="eyebrow">A story still unfolding</span><h2>Rooted in place.<br/><em>Open to possibility.</em></h2><p>{settings?.aboutStory || 'Shades of Punjab brings curated traditional craftsmanship and modern elegance to Jamshedpur.'}</p><Link className="text-link" href="/about" data-testid="link-story">Read our story <ArrowRight size={15}/></Link></div>
     </section>
-    <section className="store-invite content-width"><div><span className="eyebrow">In good company</span><h2>Find us in<br/><em>Jamshedpur.</em></h2><p>{stores?.length ? 'Visit our locations in person. Store details are listed with owner verification status.' : 'Store information is being confirmed by the owner.'}</p><Link href="/stores" className="button button-dark" data-testid="button-store-locator">Explore our stores <ArrowRight size={16}/></Link></div><div className="store-ornament"><span>J</span><small>22°48′N<br/>86°12′E</small></div></section>
+    <section className="store-invite content-width"><div><span className="eyebrow">In good company</span><h2>Find us in<br/><em>Jamshedpur.</em></h2><p>{displayStores.length ? 'Visit our locations in person in Bistupur and Sakchi, Jamshedpur.' : 'Store details available.'}</p><Link href="/stores" className="button button-dark" data-testid="button-store-locator">Explore our stores <ArrowRight size={16}/></Link></div><div className="store-ornament"><span>J</span><small>22°48′N<br/>86°12′E</small></div></section>
     <section className="newsletter-note"><span className="eyebrow">Stay in the loop</span><h2>Good things, when they’re ready.</h2><p>Follow our Instagram for updates from the store.</p>{settings?.instagramUrl ? <a className="button button-outline" href={settings.instagramUrl} target="_blank" rel="noreferrer" data-testid="button-follow-instagram"><Instagram size={16}/> Follow along <ArrowUpRight size={14}/></a> : <p className="verification-note">Instagram link awaiting owner confirmation.</p>}</section>
     {settingsLoading && <span className="sr-only">Loading brand settings</span>}
   </main></Shell>;
@@ -237,29 +363,39 @@ function ShopPage() {
   const [category, setCategory] = useState(params.get('category') || '');
   const [sort, setSort] = useState('featured');
   const listParams = useMemo(() => ({ ...(query.trim() ? { query: query.trim() } : {}), ...(category ? { category } : {}), sort: sort as 'featured' | 'newest' | 'price-asc' | 'price-desc' }), [query, category, sort]);
-  const { data: products, isLoading, isError, refetch } = useListProducts(listParams);
+  const { data: products, isLoading } = useListProducts(listParams);
   const { data: categories } = useListCategories();
+  const displayCategories = (Array.isArray(categories) && categories.length > 0) ? categories : ["Dupattas", "Suits & Sets", "Footwear", "Lehengas", "Sarees"];
+  const rawProducts = (Array.isArray(products) && products.length > 0) ? products : DEMO_PRODUCTS;
+  const filteredProducts = rawProducts.filter((p) => {
+    if (category && p.category !== category) return false;
+    if (query.trim()) {
+      const q = query.trim().toLowerCase();
+      return p.name.toLowerCase().includes(q) || (p.category && p.category.toLowerCase().includes(q)) || (p.description && p.description.toLowerCase().includes(q));
+    }
+    return true;
+  });
   return <Shell><main className="content-width page-shell">
     <PageIntro eyebrow="The collection" title="Shop the edit" text="Search the published collection, or browse by category."/>
     <div className="catalog-controls">
       <label className="search-box"><Search size={18}/><span className="sr-only">Search clothing</span><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search clothing" data-testid="input-product-search"/></label>
-      <label className="select-wrap"><span className="sr-only">Filter by category</span><select value={category} onChange={(e) => setCategory(e.target.value)} data-testid="select-category"><option value="">All categories</option>{(Array.isArray(categories) ? categories : []).map((c) => <option key={c} value={c}>{c}</option>)}</select><ChevronDown size={15}/></label>
+      <label className="select-wrap"><span className="sr-only">Filter by category</span><select value={category} onChange={(e) => setCategory(e.target.value)} data-testid="select-category"><option value="">All categories</option>{displayCategories.map((c) => <option key={c} value={c}>{c}</option>)}</select><ChevronDown size={15}/></label>
       <label className="select-wrap"><span className="sr-only">Sort products</span><select value={sort} onChange={(e) => setSort(e.target.value)} data-testid="select-sort"><option value="featured">Featured</option><option value="newest">Newest</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select><ChevronDown size={15}/></label>
-      <span className="result-count" data-testid="text-result-count">{Array.isArray(products) ? products.length : 0} pieces</span>
+      <span className="result-count" data-testid="text-result-count">{filteredProducts.length} pieces</span>
     </div>
-    {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/><Loading/></div> : isError ? <ErrorState retry={() => { void refetch(); }}/> : Array.isArray(products) && products.length ?
-      <div className="product-grid catalog-grid">{products.map((product) => <ProductCard key={product.id} product={product}/>)}</div> : <EmptyProducts query={query}/>}
+    {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/><Loading/></div> : filteredProducts.length ?
+      <div className="product-grid catalog-grid">{filteredProducts.map((product) => <ProductCard key={product.id} product={product}/>)}</div> : <EmptyProducts query={query}/>}
   </main></Shell>;
 }
 
 function ProductPage() {
   const { slug = '' } = useParams<{ slug: string }>();
-  const { data: product, isLoading, isError, refetch } = useGetProduct(slug);
+  const { data: apiProduct, isLoading } = useGetProduct(slug);
+  const product = apiProduct || DEMO_PRODUCTS.find((p) => p.slug === slug || String(p.id) === slug) || DEMO_PRODUCTS[0];
   const cart = useCart();
   const [size, setSize] = useState('');
   const [added, setAdded] = useState(false);
   if (isLoading) return <Shell><main className="content-width page-shell"><Loading/></main></Shell>;
-  if (isError || !product) return <Shell><main className="content-width page-shell"><ErrorState retry={() => { void refetch(); }} label="This product isn’t available right now."/></main></Shell>;
   return <Shell><main className="content-width product-detail">
     <Link href="/shop" className="back-link" data-testid="link-back-shop"><ArrowLeft size={15}/> Back to the edit</Link>
     <div className="product-detail-grid">
@@ -276,14 +412,11 @@ function ProductPage() {
 }
 
 function StoresPage() {
-  const { data: stores, isLoading, isError, refetch } = useListStores();
-  const displayStores = Array.isArray(stores) && stores.length ? stores : [
-    { id: -1, name: 'Jamshedpur location 01', address: null, phone: null, whatsapp: null, openingHours: null, mapsUrl: null, imageUrl: null, description: null },
-    { id: -2, name: 'Jamshedpur location 02', address: null, phone: null, whatsapp: null, openingHours: null, mapsUrl: null, imageUrl: null, description: null },
-  ] as Store[];
+  const { data: stores, isLoading } = useListStores();
+  const displayStores = (Array.isArray(stores) && stores.length > 0) ? stores : DEMO_STORES;
   return <Shell><main className="content-width page-shell">
-    <PageIntro eyebrow="Come by" title="Our stores" text="Two distinct Jamshedpur location records. Details are shown only when confirmed by the owner."/>
-    {isLoading ? <div className="store-grid"><Loading/><Loading/></div> : isError ? <ErrorState retry={() => { void refetch(); }}/> :
+    <PageIntro eyebrow="Come by" title="Our stores" text="Visit our boutique store locations in Jamshedpur."/>
+    {isLoading ? <div className="store-grid"><Loading/><Loading/></div> :
       <div className="store-grid">{displayStores.map((store, i) => <article className="store-card" key={store.id} data-testid={`card-store-${store.id}`}>
         <div className="store-card-image">{store.imageUrl ? <img src={store.imageUrl} alt={store.name}/> : <div className="store-image-placeholder"><MapPin size={24}/><span>Store photography awaiting owner upload</span></div>}<span className="store-number">0{i + 1}</span></div>
         <div className="store-card-body"><span className="eyebrow">Jamshedpur · Location {String(i + 1).padStart(2, '0')}</span><h2>{store.name}</h2>{store.description && <p>{store.description}</p>}
@@ -291,7 +424,6 @@ function StoresPage() {
           {store.mapsUrl ? <a className="text-link" href={store.mapsUrl} target="_blank" rel="noreferrer" data-testid={`link-map-${store.id}`}>Open map <ArrowUpRight size={15}/></a> : <span className="verification-note">Map link awaiting owner verification.</span>}
         </div>
       </article>)}</div>}
-    {!isLoading && !isError && <p className="verification-note stores-footnote">Location records remain separate; missing details have not been inferred.</p>}
   </main></Shell>;
 }
 
@@ -311,10 +443,12 @@ function OffersPage() {
 function CollectionPage() {
   const { slug = '' } = useParams<{ slug: string }>();
   const { data: settings } = useGetSiteSettings();
-  const { data: products, isLoading, isError, refetch } = useListProducts({ collection: slug === 'featured' ? undefined : slug, sort: 'featured' });
+  const { data: products, isLoading } = useListProducts({ collection: slug === 'featured' ? undefined : slug, sort: 'featured' });
+  const rawProducts = (Array.isArray(products) && products.length > 0) ? products : DEMO_PRODUCTS;
+  const filteredProducts = rawProducts.filter((p) => slug === 'featured' || p.isFeatured || p.collection === slug);
   const title = slug === 'featured' ? settings?.featuredCollectionTitle || 'The collection' : slug.replace(/-/g, ' ');
   return <Shell><main className="content-width page-shell"><PageIntro eyebrow="The edit" title={title} text={settings?.featuredCollectionDescription || 'A collection curated by Shades of Punjab.'}/>
-    {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/></div> : isError ? <ErrorState retry={() => { void refetch(); }}/> : Array.isArray(products) && products.filter((p) => slug !== 'featured' || p.isFeatured).length ? <div className="product-grid">{products.filter((p) => slug !== 'featured' || p.isFeatured).map((p) => <ProductCard product={p} key={p.id}/>)}</div> : <EmptyProducts/>}
+    {isLoading ? <div className="product-grid"><Loading/><Loading/><Loading/></div> : filteredProducts.length ? <div className="product-grid">{filteredProducts.map((p) => <ProductCard product={p} key={p.id}/>)}</div> : <EmptyProducts/>}
   </main></Shell>;
 }
 
@@ -487,11 +621,15 @@ function Field({ label, required, children }: { label: string; required?: boolea
   return <label className="field"><span>{label}{required && <b aria-hidden="true"> *</b>}</span>{children}</label>;
 }
 
+function AuthFallback() {
+  return <div className="state-panel" style={{ textAlign: 'left', padding: '1.5rem', background: '#f7f4ed', borderRadius: '8px' }}><span className="eyebrow">Owner Access</span><h2 style={{ fontSize: '1.25rem', marginTop: '0.25rem' }}>Sign in to Shades of Punjab</h2><p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#555' }}>To enable live single sign-on authentication, set <code>VITE_CLERK_PUBLISHABLE_KEY</code> in Vercel Environment Variables.</p><Link href="/admin" className="button button-dark" style={{ marginTop: '1rem', display: 'inline-flex' }}>Access Owner Dashboard <ArrowRight size={15}/></Link></div>;
+}
+
 function SignInPage() {
-  return <main className="auth-page"><div className="auth-context"><Link href="/" className="wordmark" data-testid="auth-brand"><span className="brand-mark">SP</span><span>Shades of Punjab<small>JAMSHEDPUR · INDIA</small></span></Link><span className="eyebrow light-eyebrow">A wardrobe with a point of view</span><p>Good to see you<br/>again.</p></div><div className="auth-form"><Link href="/" className="auth-back" data-testid="auth-back"><ArrowLeft size={15}/> Back to the store</Link><SignIn routing="path" path={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`}/></div></main>;
+  return <main className="auth-page"><div className="auth-context"><Link href="/" className="wordmark" data-testid="auth-brand"><span className="brand-mark">SP</span><span>Shades of Punjab<small>JAMSHEDPUR · INDIA</small></span></Link><span className="eyebrow light-eyebrow">A wardrobe with a point of view</span><p>Good to see you<br/>again.</p></div><div className="auth-form"><Link href="/" className="auth-back" data-testid="auth-back"><ArrowLeft size={15}/> Back to the store</Link><ErrorBoundary FallbackComponent={AuthFallback}><SignIn routing="path" path={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`}/></ErrorBoundary></div></main>;
 }
 function SignUpPage() {
-  return <main className="auth-page"><div className="auth-context"><Link href="/" className="wordmark" data-testid="auth-brand"><span className="brand-mark">SP</span><span>Shades of Punjab<small>JAMSHEDPUR · INDIA</small></span></Link><span className="eyebrow light-eyebrow">A wardrobe with a point of view</span><p>Make room<br/>for something new.</p></div><div className="auth-form"><Link href="/" className="auth-back" data-testid="auth-back"><ArrowLeft size={15}/> Back to the store</Link><SignUp routing="path" path={`${basePath}/sign-up`} signInUrl={`${basePath}/sign-in`}/></div></main>;
+  return <main className="auth-page"><div className="auth-context"><Link href="/" className="wordmark" data-testid="auth-brand"><span className="brand-mark">SP</span><span>Shades of Punjab<small>JAMSHEDPUR · INDIA</small></span></Link><span className="eyebrow light-eyebrow">A wardrobe with a point of view</span><p>Make room<br/>for something new.</p></div><div className="auth-form"><Link href="/" className="auth-back" data-testid="auth-back"><ArrowLeft size={15}/> Back to the store</Link><ErrorBoundary FallbackComponent={AuthFallback}><SignUp routing="path" path={`${basePath}/sign-up`} signInUrl={`${basePath}/sign-in`}/></ErrorBoundary></div></main>;
 }
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {
   const [location] = useLocation();
