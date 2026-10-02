@@ -24,7 +24,9 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 
 const queryClient = new QueryClient();
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const fallbackClerkKey = 'pk_test_dG91Y2hpbmctY2F0ZmFzaC0yNS5jbGVyay5hY2NvdW50cy5kZXYk';
 const rawClerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const activeKey = rawClerkKey || fallbackClerkKey;
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
   window.location.hostname === '127.0.0.1' ||
@@ -33,8 +35,8 @@ const isLocalhost = Boolean(
   window.location.hostname.startsWith('10.')
 );
 const clerkPubKey = (isLocalhost || !rawClerkKey)
-  ? (rawClerkKey || '')
-  : publishableKeyFromHost(window.location.hostname, rawClerkKey);
+  ? activeKey
+  : publishableKeyFromHost(window.location.hostname, activeKey);
 const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL || undefined;
 const heroFallback = `${basePath}/punjab-editorial-hero.jpg`;
 const defaultBrand = 'Shades of Punjab';
@@ -241,7 +243,7 @@ function ShopPage() {
     <PageIntro eyebrow="The collection" title="Shop the edit" text="Search the published collection, or browse by category."/>
     <div className="catalog-controls">
       <label className="search-box"><Search size={18}/><span className="sr-only">Search clothing</span><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search clothing" data-testid="input-product-search"/></label>
-      <label className="select-wrap"><span className="sr-only">Filter by category</span><select value={category} onChange={(e) => setCategory(e.target.value)} data-testid="select-category"><option value="">All categories</option>{(categories || []).map((c) => <option key={c} value={c}>{c}</option>)}</select><ChevronDown size={15}/></label>
+      <label className="select-wrap"><span className="sr-only">Filter by category</span><select value={category} onChange={(e) => setCategory(e.target.value)} data-testid="select-category"><option value="">All categories</option>{(Array.isArray(categories) ? categories : []).map((c) => <option key={c} value={c}>{c}</option>)}</select><ChevronDown size={15}/></label>
       <label className="select-wrap"><span className="sr-only">Sort products</span><select value={sort} onChange={(e) => setSort(e.target.value)} data-testid="select-sort"><option value="featured">Featured</option><option value="newest">Newest</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select><ChevronDown size={15}/></label>
       <span className="result-count" data-testid="text-result-count">{Array.isArray(products) ? products.length : 0} pieces</span>
     </div>
@@ -513,9 +515,6 @@ function Router() {
 }
 function ClerkWithRoutes() {
   const [, setLocation] = useLocation();
-  if (!clerkPubKey) {
-    return <Router/>;
-  }
   return <ClerkProvider publishableKey={clerkPubKey} {...(clerkProxyUrl ? { proxyUrl: clerkProxyUrl } : {})} appearance={appearance}
     signInUrl={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`}
     localization={{ signIn: { start: { title: 'Welcome back', subtitle: 'Sign in to your Shades of Punjab account' } }, signUp: { start: { title: 'Create your account', subtitle: 'Join the Shades of Punjab community' } } }}
