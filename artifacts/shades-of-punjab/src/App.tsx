@@ -24,19 +24,8 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 
 const queryClient = new QueryClient();
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-const fallbackClerkKey = 'pk_test_dG91Y2hpbmctY2F0ZmFzaC0yNS5jbGVyay5hY2NvdW50cy5kZXYk';
-const rawClerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-const activeKey = rawClerkKey || fallbackClerkKey;
-const isLocalhost = Boolean(
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1' ||
-  window.location.hostname.includes('localhost') ||
-  window.location.hostname.startsWith('192.168.') ||
-  window.location.hostname.startsWith('10.')
-);
-const clerkPubKey = (isLocalhost || !rawClerkKey)
-  ? activeKey
-  : publishableKeyFromHost(window.location.hostname, activeKey);
+const rawClerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.trim();
+const clerkPubKey = rawClerkKey && rawClerkKey.startsWith('pk_') ? rawClerkKey : undefined;
 const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL || undefined;
 const heroFallback = `${basePath}/punjab-editorial-hero.jpg`;
 const defaultBrand = 'Shades of Punjab';
@@ -301,11 +290,47 @@ function PageIntro({ eyebrow, title, text }: { eyebrow: string; title: string; t
 }
 
 function ProductCard({ product }: { product: Product }) {
+  const cart = useCart();
+  const [added, setAdded] = useState(false);
+  const handleQuickAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    cart.add(product, product.sizes?.[0] || undefined);
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 2000);
+  };
+
   return <Link href={`/product/${product.slug}`} className="product-card" data-testid={`card-product-${product.id}`}>
-    <div className="product-image">
+    <div className="product-image" style={{ position: 'relative' }}>
       {imageFor(product) ? <img src={imageFor(product)} alt={product.name} loading="lazy" data-testid={`img-product-${product.id}`}/> : <div className="image-placeholder"><span>Image awaiting owner upload</span></div>}
       {product.isNewArrival && <span className="product-tag">New arrival</span>}
       {!product.stock && product.stock === 0 && <span className="product-tag sold-tag">Unavailable</span>}
+      <button
+        type="button"
+        className="quick-add-btn"
+        onClick={handleQuickAdd}
+        title="Add to bag"
+        style={{
+          position: 'absolute',
+          bottom: '10px',
+          right: '10px',
+          background: added ? '#315d48' : '#70283f',
+          color: '#ffffff',
+          border: 'none',
+          borderRadius: '50%',
+          width: '36px',
+          height: '36px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: '0 4px 10px rgba(0,0,0,0.18)',
+          zIndex: 10
+        }}
+        data-testid={`button-quick-add-${product.id}`}
+      >
+        {added ? <Check size={16}/> : <ShoppingBag size={16}/>}
+      </button>
     </div>
     <div className="product-card-meta"><div><h3>{product.name}</h3><p>{product.category || 'Category to be confirmed'}</p></div><span>{money(product.priceInr)}</span></div>
   </Link>;
@@ -459,6 +484,16 @@ function CartPage() {
   return <Shell><main className="content-width page-shell cart-page"><PageIntro eyebrow="Your selection" title="Shopping bag"/>
     {cart.items.length ? <div className="cart-layout"><div className="cart-items">{cart.items.map(({ product, quantity, size }) => <article className="cart-row" key={`${product.id}-${size || ''}`} data-testid={`cart-item-${product.id}`}>
       <Link href={`/product/${product.slug}`} className="cart-thumb" data-testid={`link-cart-product-${product.id}`}>{imageFor(product) ? <img src={imageFor(product)} alt={product.name}/> : <span>Image pending</span>}</Link>
+      <div className="cart-item-copy">
+        <h2><Link href={`/product/${product.slug}`}>{product.name}</Link></h2>
+        {size && <p>Size: {size}</p>}
+        <span>{money(product.priceInr)}</span>
+        <div className="quantity-control">
+          <button type="button" onClick={() => cart.change(product.id, size, -1)} aria-label="Decrease quantity"><Minus size={13}/></button>
+          <span>{quantity}</span>
+          <button type="button" onClick={() => cart.change(product.id, size, 1)} aria-label="Increase quantity"><Plus size={13}/></button>
+        </div>
+      </div>
       <button className="icon-button remove-button" onClick={() => cart.remove(product.id, size)} aria-label={`Remove ${product.name}`} data-testid={`button-remove-${product.id}`}><Trash2 size={17}/></button>
     </article>)}</div><aside className="cart-summary"><span className="eyebrow">Summary</span><div><span>Items</span><span>{cart.count}</span></div><div><span>Subtotal</span><span>{subtotalUnknown ? 'Price to be confirmed' : money(subtotal)}</span></div><p>Delivery and final totals can be confirmed by the store.</p><button className="button button-dark full-button" disabled data-testid="button-checkout">Checkout not yet configured</button><Link className="text-link" href="/shop" data-testid="link-continue-shopping">Continue shopping <ArrowRight size={15}/></Link></aside></div> :
       <div className="empty-cart" data-testid="empty-cart"><ShoppingBag size={28}/><span className="eyebrow">Nothing in the bag</span><h2>Your next favourite is still out there.</h2><p>Explore the current published collection.</p><Link className="button button-dark" href="/shop" data-testid="button-empty-shop">Explore clothing <ArrowRight size={15}/></Link></div>}
@@ -626,10 +661,10 @@ function AuthFallback() {
 }
 
 function SignInPage() {
-  return <main className="auth-page"><div className="auth-context"><Link href="/" className="wordmark" data-testid="auth-brand"><span className="brand-mark">SP</span><span>Shades of Punjab<small>JAMSHEDPUR · INDIA</small></span></Link><span className="eyebrow light-eyebrow">A wardrobe with a point of view</span><p>Good to see you<br/>again.</p></div><div className="auth-form"><Link href="/" className="auth-back" data-testid="auth-back"><ArrowLeft size={15}/> Back to the store</Link><ErrorBoundary FallbackComponent={AuthFallback}><SignIn routing="path" path={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`}/></ErrorBoundary></div></main>;
+  return <main className="auth-page"><div className="auth-context"><Link href="/" className="wordmark" data-testid="auth-brand"><span className="brand-mark">SP</span><span>Shades of Punjab<small>JAMSHEDPUR · INDIA</small></span></Link><span className="eyebrow light-eyebrow">A wardrobe with a point of view</span><p>Good to see you<br/>again.</p></div><div className="auth-form"><Link href="/" className="auth-back" data-testid="auth-back"><ArrowLeft size={15}/> Back to the store</Link>{!clerkPubKey ? <AuthFallback /> : <ErrorBoundary FallbackComponent={AuthFallback}><SignIn routing="path" path={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`}/></ErrorBoundary>}</div></main>;
 }
 function SignUpPage() {
-  return <main className="auth-page"><div className="auth-context"><Link href="/" className="wordmark" data-testid="auth-brand"><span className="brand-mark">SP</span><span>Shades of Punjab<small>JAMSHEDPUR · INDIA</small></span></Link><span className="eyebrow light-eyebrow">A wardrobe with a point of view</span><p>Make room<br/>for something new.</p></div><div className="auth-form"><Link href="/" className="auth-back" data-testid="auth-back"><ArrowLeft size={15}/> Back to the store</Link><ErrorBoundary FallbackComponent={AuthFallback}><SignUp routing="path" path={`${basePath}/sign-up`} signInUrl={`${basePath}/sign-in`}/></ErrorBoundary></div></main>;
+  return <main className="auth-page"><div className="auth-context"><Link href="/" className="wordmark" data-testid="auth-brand"><span className="brand-mark">SP</span><span>Shades of Punjab<small>JAMSHEDPUR · INDIA</small></span></Link><span className="eyebrow light-eyebrow">A wardrobe with a point of view</span><p>Make room<br/>for something new.</p></div><div className="auth-form"><Link href="/" className="auth-back" data-testid="auth-back"><ArrowLeft size={15}/> Back to the store</Link>{!clerkPubKey ? <AuthFallback /> : <ErrorBoundary FallbackComponent={AuthFallback}><SignUp routing="path" path={`${basePath}/sign-up`} signInUrl={`${basePath}/sign-in`}/></ErrorBoundary>}</div></main>;
 }
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {
   const [location] = useLocation();
@@ -653,6 +688,9 @@ function Router() {
 }
 function ClerkWithRoutes() {
   const [, setLocation] = useLocation();
+  if (!clerkPubKey) {
+    return <Router/>;
+  }
   return <ClerkProvider publishableKey={clerkPubKey} {...(clerkProxyUrl ? { proxyUrl: clerkProxyUrl } : {})} appearance={appearance}
     signInUrl={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`}
     localization={{ signIn: { start: { title: 'Welcome back', subtitle: 'Sign in to your Shades of Punjab account' } }, signUp: { start: { title: 'Create your account', subtitle: 'Join the Shades of Punjab community' } } }}
