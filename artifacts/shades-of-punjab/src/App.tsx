@@ -24,9 +24,18 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 
 const queryClient = new QueryClient();
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-const clerkPubKey = publishableKeyFromHost(window.location.hostname, import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
+const rawClerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const isLocalhost = Boolean(
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1' ||
+  window.location.hostname.includes('localhost') ||
+  window.location.hostname.startsWith('192.168.') ||
+  window.location.hostname.startsWith('10.')
+);
+const clerkPubKey = (isLocalhost || !rawClerkKey)
+  ? (rawClerkKey || '')
+  : publishableKeyFromHost(window.location.hostname, rawClerkKey);
 const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL || undefined;
-if (!clerkPubKey) throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY in .env file');
 const heroFallback = `${basePath}/punjab-editorial-hero.jpg`;
 const defaultBrand = 'Shades of Punjab';
 
@@ -504,6 +513,9 @@ function Router() {
 }
 function ClerkWithRoutes() {
   const [, setLocation] = useLocation();
+  if (!clerkPubKey) {
+    return <Router/>;
+  }
   return <ClerkProvider publishableKey={clerkPubKey} {...(clerkProxyUrl ? { proxyUrl: clerkProxyUrl } : {})} appearance={appearance}
     signInUrl={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`}
     localization={{ signIn: { start: { title: 'Welcome back', subtitle: 'Sign in to your Shades of Punjab account' } }, signUp: { start: { title: 'Create your account', subtitle: 'Join the Shades of Punjab community' } } }}
