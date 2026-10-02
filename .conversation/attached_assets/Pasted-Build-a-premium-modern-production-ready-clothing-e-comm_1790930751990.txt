@@ -1,0 +1,963 @@
+Build a premium, modern, production-ready clothing e-commerce website for **“Shades of Punjab”**, a clothing retail brand with two physical store locations in **Jamshedpur, Jharkhand, India**.
+
+Use the brand's Instagram presence as a visual/content reference:
+Instagram: https://www.instagram.com/shades.of.punjab.amritsar/
+
+Important:
+
+* Do not invent products, prices, addresses, phone numbers, reviews, offers, or business claims.
+* Where information is unavailable, create editable placeholders that can be managed from the admin panel.
+* The website should be designed so the business owner can replace all placeholder content with actual brand information.
+* The two physical store locations must be represented separately.
+* The website should feel like a real premium Indian fashion brand, not a generic template.
+
+## 1. Overall Brand Direction
+
+Create a sophisticated Indian fashion aesthetic combining:
+
+* Punjabi cultural identity
+* Modern Indian fashion
+* Premium retail-store presentation
+* Elegant typography
+* High-quality fashion photography
+* Clean layouts
+* Subtle Punjabi-inspired visual details
+* Strong mobile-first experience
+
+Avoid excessive traditional decoration. The design should feel contemporary, premium and commercially usable.
+
+Suggested visual direction:
+
+* Warm ivory / off-white backgrounds
+* Deep navy or charcoal typography
+* Rich burgundy / wine accents
+* Subtle gold accents
+* Soft beige sections
+* Large editorial fashion imagery
+* Generous whitespace
+* Elegant serif headings + modern sans-serif body text
+
+Do not make the website overly colorful.
+
+## 2. Technology Stack
+
+Build using:
+
+* Next.js 15+
+* TypeScript
+* App Router
+* Tailwind CSS
+* shadcn/ui where appropriate
+* MongoDB
+* Mongoose or an equivalent clean database layer
+* Redux Toolkit only where global state is actually required
+* Secure authentication
+* Responsive design
+* SEO-friendly architecture
+* Image optimization
+* Server-side rendering where beneficial
+
+Structure the project cleanly so it can later be deployed to Vercel or another production platform.
+
+## 3. Main Website Navigation
+
+Create a premium sticky navigation bar containing:
+
+Logo:
+SHADES OF PUNJAB
+
+Navigation:
+
+* Home
+* Women
+* Men
+* New Arrivals
+* Collections
+* Offers
+* Stores
+* About
+* Contact
+
+Right-side actions:
+
+* Search
+* Account
+* Wishlist
+* Shopping Bag
+
+On mobile:
+
+* Hamburger menu
+* Search
+* Wishlist
+* Cart
+
+The navigation should become compact while scrolling.
+
+## 4. Homepage
+
+Create a visually impressive fashion homepage.
+
+### Hero Section
+
+Use a full-width fashion image/video area.
+
+Headline:
+
+“Style Rooted in Punjab”
+
+Supporting text should be editable from the admin panel.
+
+Buttons:
+
+* SHOP COLLECTION
+* VISIT OUR STORES
+
+Add subtle entrance animations.
+
+Do not use excessive animation.
+
+### Featured Categories
+
+Create large visual category cards such as:
+
+* Women's Wear
+* Men's Wear
+* Ethnic Wear
+* Festive Wear
+* Wedding Collection
+* New Arrivals
+
+These categories must be editable through the admin dashboard.
+
+### New Arrivals
+
+Display a product grid containing:
+
+* Product image
+* Product name
+* Price
+* Discount price if applicable
+* Available sizes
+* Wishlist button
+* Quick view
+* Add to bag
+
+### Featured Collection
+
+Create an editorial section with a large image and text describing the current collection.
+
+Example placeholder:
+
+“Timeless silhouettes. Contemporary details. Punjabi soul.”
+
+Make all content editable.
+
+### Shop By Occasion
+
+Create visual cards:
+
+* Everyday
+* Festive
+* Wedding
+* Party
+* Traditional
+* Contemporary
+
+### Instagram Section
+
+Create a section encouraging users to explore the brand's Instagram.
+
+Display an attractive grid of social images/content.
+
+CTA:
+
+“FOLLOW @SHADES.OF.PUNJAB.AMRITSAR”
+
+Link to the actual Instagram profile.
+
+Do not scrape Instagram automatically unless a legitimate API/integration is configured.
+
+### Store Section
+
+Show the two Jamshedpur stores.
+
+Each store card should contain:
+
+* Store name
+* Address
+* Opening hours
+* Phone
+* Google Maps button
+* WhatsApp button
+* Get Directions
+
+All information must be editable from Admin.
+
+## 5. Product Catalog
+
+Create a complete shopping catalog.
+
+Routes:
+
+/shop
+/women
+/men
+/collections/[slug]
+/product/[slug]
+
+Product filtering:
+
+* Category
+* Subcategory
+* Size
+* Color
+* Price
+* Collection
+* Availability
+* New arrivals
+* Offers
+
+Sorting:
+
+* Featured
+* Newest
+* Price low to high
+* Price high to low
+
+Create a polished product grid.
+
+## 6. Product Details Page
+
+Create a premium product detail page.
+
+Include:
+
+* Large product gallery
+* Multiple images
+* Zoom
+* Product name
+* Price
+* Discount
+* Size selector
+* Color selector
+* Size guide
+* Stock availability
+* Product description
+* Fabric/material
+* Care instructions
+* Delivery information
+* Return policy
+* Wishlist
+* Add to Bag
+* Buy Now
+
+Also include:
+
+“Complete the Look”
+
+and
+
+“You May Also Like”
+
+sections.
+
+## 7. Shopping Cart
+
+Create a complete cart system.
+
+Users should be able to:
+
+* Add products
+* Change quantity
+* Remove products
+* Save for later
+* Apply coupon
+* See subtotal
+* See shipping
+* See discount
+* See final amount
+
+Add:
+
+“Proceed to Checkout”
+
+CTA.
+
+## 8. Checkout
+
+Create a clean multi-step checkout.
+
+Step 1:
+Customer details
+
+Step 2:
+Shipping address
+
+Step 3:
+Delivery method
+
+Step 4:
+Payment
+
+Step 5:
+Order confirmation
+
+Support Indian e-commerce requirements such as:
+
+* INR
+* Indian states
+* PIN code
+* Mobile number
+* COD if enabled
+* Online payment if configured
+
+Payment integration should be modular so Razorpay/another provider can be added securely.
+
+Never store raw card information.
+
+## 9. Authentication
+
+Create:
+
+* Sign Up
+* Login
+* Logout
+* Forgot Password
+* Reset Password
+* Email verification
+* Google authentication
+
+User account should include:
+
+* Profile
+* Saved addresses
+* Orders
+* Wishlist
+* Recently viewed
+* Account settings
+
+Do not require account creation before browsing products.
+
+## 10. Store Locator
+
+Create a dedicated:
+
+/stores
+
+page.
+
+Show both verified Shades of Punjab locations in Jamshedpur.
+
+Each location should have:
+
+* Store image
+* Store name
+* Address
+* Opening hours
+* Contact number
+* Google Maps
+* Directions
+* WhatsApp/contact CTA
+
+Add an interactive map if a map API is configured.
+
+Do not fabricate map coordinates.
+
+The admin should be able to add more stores later.
+
+## 11. WhatsApp Integration
+
+Because this is a local clothing retailer, add WhatsApp conversion points.
+
+For example:
+
+* Product → “Ask on WhatsApp”
+* Store → “Chat on WhatsApp”
+* Contact → “WhatsApp Us”
+
+Generate a product-aware WhatsApp message where appropriate.
+
+Example:
+
+“Hi Shades of Punjab, I'm interested in [Product Name]. Please share availability and details.”
+
+Keep the WhatsApp number configurable from Admin.
+
+## 12. About Page
+
+Create:
+
+/about
+
+Tell the brand story using editable sections.
+
+Include:
+
+* Brand story
+* Philosophy
+* Fashion identity
+* Store experience
+* Gallery
+* Brand values
+
+Do not invent historical claims.
+
+Use placeholders until the owner provides the actual story.
+
+## 13. Collections
+
+Create a visual collection system.
+
+Examples:
+
+* New Collection
+* Festive Edit
+* Wedding Edit
+* Punjabi Edit
+* Everyday Essentials
+* Premium Collection
+
+These are examples only.
+
+The administrator must be able to create, rename, delete and reorder collections.
+
+Each collection should support:
+
+* Name
+* Description
+* Cover image
+* Banner
+* Products
+* SEO title
+* SEO description
+
+## 14. Offers
+
+Create:
+
+/offers
+
+Display active promotions.
+
+Admin should control:
+
+* Offer title
+* Banner
+* Discount
+* Coupon
+* Start date
+* End date
+* Applicable products
+* Applicable categories
+
+Automatically hide expired offers.
+
+## 15. Admin Dashboard
+
+Create a secure admin dashboard.
+
+Route:
+
+/admin
+
+Dashboard metrics:
+
+* Total sales
+* Orders
+* Revenue
+* Customers
+* Products
+* Low-stock products
+* Active offers
+
+### Product Management
+
+Admin can:
+
+* Add product
+* Edit product
+* Delete product
+* Upload multiple images
+* Manage sizes
+* Manage colors
+* Manage prices
+* Manage stock
+* Assign categories
+* Assign collections
+* Mark featured
+* Mark new arrival
+* Mark bestseller
+
+### Order Management
+
+Admin can:
+
+* View orders
+* Search orders
+* Filter orders
+* Update order status
+* View customer details
+* View payment status
+* View shipping details
+* Print/download invoice
+
+Order statuses:
+
+* Pending
+* Confirmed
+* Processing
+* Shipped
+* Delivered
+* Cancelled
+* Returned
+
+### Customer Management
+
+Admin can:
+
+* View customers
+* View customer orders
+* View customer account information
+* Disable account when necessary
+
+### Store Management
+
+Admin can add/edit:
+
+* Store name
+* Address
+* Phone
+* WhatsApp
+* Opening hours
+* Google Maps URL
+* Store images
+* Description
+
+### Homepage Management
+
+Admin should be able to manage:
+
+* Hero banner
+* Featured categories
+* Featured products
+* Collection banners
+* Promotional banners
+* Instagram section
+* Store section
+
+This prevents the developer from having to modify code for routine content changes.
+
+## 16. Inventory
+
+Create basic inventory management.
+
+Track:
+
+* SKU
+* Product
+* Size
+* Color
+* Quantity
+* Low-stock threshold
+
+Show low-stock warnings in Admin.
+
+If a product reaches zero inventory, automatically display:
+
+“Out of Stock”
+
+and disable purchase.
+
+## 17. Search
+
+Implement global product search.
+
+Search by:
+
+* Product name
+* SKU
+* Category
+* Collection
+* Tags
+
+Include autocomplete suggestions.
+
+Create a proper search results page.
+
+## 18. Wishlist
+
+Logged-in users can:
+
+* Add/remove products
+* View wishlist
+* Move item to cart
+
+## 19. SEO
+
+Implement strong SEO.
+
+Each product should support:
+
+* SEO title
+* Meta description
+* Canonical URL
+* Open Graph image
+* Product structured data
+
+Generate:
+
+* sitemap.xml
+* robots.txt
+
+Use clean URLs.
+
+Examples:
+
+/women/suits
+/men/kurtas
+/product/product-name
+
+## 20. Local SEO
+
+Because Shades of Punjab operates physical stores in Jamshedpur, create strong local SEO.
+
+Include:
+
+* Jamshedpur location pages
+* Store information
+* Google Maps links
+* Opening hours
+* LocalBusiness structured data where appropriate
+
+Do not create fake reviews or fake business claims.
+
+## 21. Reviews
+
+Create a product review system.
+
+Users can submit:
+
+* Rating
+* Review
+* Images
+
+Admin can moderate reviews before publication.
+
+Never generate fake customer reviews.
+
+## 22. Performance
+
+The website must be fast.
+
+Use:
+
+* Next.js Image optimization
+* Lazy loading
+* Server components where appropriate
+* Code splitting
+* Proper caching
+* Optimized fonts
+* Responsive images
+
+Avoid unnecessary client-side JavaScript.
+
+## 23. Mobile Experience
+
+Mobile must be treated as a primary platform.
+
+Create:
+
+* Mobile navigation
+* Sticky mobile shopping bar where appropriate
+* Touch-friendly filters
+* Swipeable product galleries
+* Mobile-friendly checkout
+* WhatsApp CTA
+* Fast-loading images
+
+Test layouts at:
+
+320px
+375px
+390px
+414px
+768px
+1024px
+1440px+
+
+## 24. Design Details
+
+Use subtle premium animations:
+
+* Fade-in
+* Image reveal
+* Hover zoom
+* Smooth transitions
+* Product card hover
+* Navigation transitions
+
+Avoid:
+
+* excessive glassmorphism
+* excessive gradients
+* neon colors
+* excessive shadows
+* huge animated text
+* unnecessary 3D effects
+
+The final result should resemble a premium fashion retailer rather than a generic SaaS dashboard.
+
+## 25. Footer
+
+Create a complete footer containing:
+
+### Shop
+
+* Women
+* Men
+* New Arrivals
+* Collections
+* Offers
+
+### Customer Care
+
+* Contact
+* Shipping
+* Returns
+* FAQs
+* Size Guide
+
+### Company
+
+* About
+* Stores
+* Careers
+
+### Social
+
+* Instagram
+* Facebook
+* WhatsApp
+
+### Legal
+
+* Privacy Policy
+* Terms & Conditions
+* Shipping Policy
+* Return Policy
+
+Include newsletter signup.
+
+## 26. Database Structure
+
+Create scalable models for:
+
+User
+Product
+Category
+Collection
+Order
+OrderItem
+Cart
+Wishlist
+Review
+Coupon
+Store
+Banner
+Address
+Inventory
+Admin
+SiteSettings
+
+Use proper relationships and indexes.
+
+## 27. Security
+
+Implement:
+
+* Secure authentication
+* Password hashing
+* Role-based authorization
+* Admin route protection
+* Input validation
+* API validation
+* Rate limiting where appropriate
+* Secure cookies
+* CSRF protection where applicable
+* Environment variables for secrets
+
+Never expose:
+
+* Database credentials
+* Payment secrets
+* OAuth secrets
+* API keys
+
+to the frontend.
+
+## 28. Admin Roles
+
+Support:
+
+ADMIN
+STAFF
+CUSTOMER
+
+ADMIN:
+Full access.
+
+STAFF:
+Products, inventory, orders and store information.
+
+CUSTOMER:
+Shopping/account functionality only.
+
+## 29. Content Management
+
+Do not hard-code business information.
+
+Create a Site Settings system where administrators can update:
+
+* Brand name
+* Logo
+* Favicon
+* Contact number
+* WhatsApp number
+* Email
+* Social links
+* Store locations
+* Opening hours
+* Policies
+* Homepage content
+* Currency
+* Shipping settings
+
+## 30. Analytics
+
+Prepare the architecture for:
+
+* Google Analytics
+* Meta Pixel
+* Google Search Console
+* Ecommerce event tracking
+
+Track:
+
+* Product views
+* Add to cart
+* Checkout started
+* Purchase
+* Search
+* Wishlist
+
+Analytics IDs must be configurable through environment variables/admin settings.
+
+## 31. Important Business Conversion Features
+
+The website should not simply look beautiful.
+
+Optimize it to convert visitors into:
+
+1. Online buyers
+2. WhatsApp inquiries
+3. Physical-store visitors
+
+Therefore, strategically place:
+
+* Shop Now
+* View Collection
+* Visit Store
+* Get Directions
+* WhatsApp Us
+* Call Store
+
+CTAs.
+
+## 32. Homepage Conversion Flow
+
+Design the homepage around this journey:
+
+Instagram/social visitor
+→ Brand introduction
+→ Collection discovery
+→ Product browsing
+→ Product details
+→ WhatsApp / Add to Cart
+→ Checkout
+
+For local customers:
+
+Instagram/social visitor
+→ Brand introduction
+→ Store discovery
+→ Directions
+→ Physical store visit
+
+## 33. Data Accuracy Requirement
+
+The following must NOT be fabricated:
+
+* Product names
+* Product prices
+* Product availability
+* Store phone numbers
+* Store opening hours
+* Exact business history
+* Customer reviews
+* Awards
+* Certifications
+* Delivery promises
+* Return policies
+
+Use clearly marked editable placeholder content until verified information is supplied.
+
+## 34. Final Deliverable
+
+Generate a complete working website, not just a landing-page mockup.
+
+Include:
+
+* Frontend
+* Backend/API
+* Database models
+* Authentication
+* Admin dashboard
+* Product management
+* Inventory
+* Cart
+* Wishlist
+* Checkout architecture
+* Orders
+* Store management
+* SEO
+* Responsive UI
+* Error handling
+* Loading states
+* Empty states
+* Form validation
+* Production-ready folder structure
+
+Before considering the project complete:
+
+1. Test every major route.
+2. Test mobile responsiveness.
+3. Test authentication.
+4. Test admin authorization.
+5. Test product CRUD.
+6. Test cart.
+7. Test wishlist.
+8. Test checkout flow.
+9. Test order creation.
+10. Test inventory updates.
+11. Test store pages.
+12. Test search and filtering.
+13. Test SEO metadata.
+14. Remove all broken links.
+15. Remove all fake business claims.
+16. Ensure no secrets are committed.
+17. Ensure the application builds successfully.
+
+The final design should communicate:
+
+**Punjabi identity + contemporary fashion + premium retail experience + strong local Jamshedpur presence.**

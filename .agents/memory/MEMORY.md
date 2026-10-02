@@ -1,0 +1,1 @@
+- [React/Vite cache mismatch](react-vite-cache.md) — if installed React versions match but the browser still reports a mismatch, clear the artifact-local Vite dependency cache and restart.

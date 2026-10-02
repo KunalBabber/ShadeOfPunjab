@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Shades of Punjab"
+description = "A premium Indian fashion storefront for Shades of Punjab, with browseable catalog flows, store discovery for two Jamshedpur locations, and owner-editable business content."
+version = "1.0.0"
+id = "artifacts/shades-of-punjab"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25744
+
+[services.development]
+run = "pnpm --filter @workspace/shades-of-punjab run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/shades-of-punjab", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/shades-of-punjab/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25744"
+BASE_PATH = "/"

@@ -3,13 +3,17 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Storefront catalog, store locations, and owner-managed site content
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: storefront
+    description: Public shopping and business information
+  - name: admin
+    description: Owner-managed catalog and storefront content
 paths:
   /healthz:
     get:
@@ -24,6 +28,241 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /products:
+    get:
+      operationId: listProducts
+      tags: [storefront]
+      summary: List published products
+      parameters:
+        - name: query
+          in: query
+          schema: { type: string }
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: collection
+          in: query
+          schema: { type: string }
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [featured, newest, price-asc, price-desc]
+      responses:
+        "200":
+          description: Published products matching the filters
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Product" }
+  /products/{slug}:
+    get:
+      operationId: getProduct
+      tags: [storefront]
+      summary: Get a published product
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Product details
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Product" }
+        "404":
+          description: Product not found
+  /categories:
+    get:
+      operationId: listCategories
+      tags: [storefront]
+      summary: List configured product categories
+      responses:
+        "200":
+          description: Category names
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { type: string }
+  /stores:
+    get:
+      operationId: listStores
+      tags: [storefront]
+      summary: List physical store locations
+      responses:
+        "200":
+          description: Store locations, kept as separate records
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Store" }
+  /site-settings:
+    get:
+      operationId: getSiteSettings
+      tags: [storefront]
+      summary: Get public storefront content and settings
+      responses:
+        "200":
+          description: Editable public site settings
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SiteSettings" }
+  /admin/products:
+    get:
+      operationId: listAdminProducts
+      tags: [admin]
+      summary: List all products for the owner dashboard
+      responses:
+        "200":
+          description: Published and draft products
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Product" }
+        "401": { description: Admin access required }
+  /admin/access:
+    get:
+      operationId: getAdminAccess
+      tags: [admin]
+      summary: Check whether the signed-in user can manage the store
+      responses:
+        "200":
+          description: Sign-in and owner-access state
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminAccessStatus" }
+    post:
+      operationId: createProduct
+      tags: [admin]
+      summary: Create a product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProductInput" }
+      responses:
+        "201":
+          description: Created product
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Product" }
+        "400": { description: Invalid product data }
+        "401": { description: Admin access required }
+  /admin/products/{id}:
+    patch:
+      operationId: updateProduct
+      tags: [admin]
+      summary: Update a product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProductUpdate" }
+      responses:
+        "200":
+          description: Updated product
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Product" }
+        "400": { description: Invalid product data }
+        "401": { description: Admin access required }
+        "404": { description: Product not found }
+    delete:
+      operationId: deleteProduct
+      tags: [admin]
+      summary: Delete a product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "204": { description: Product deleted }
+        "401": { description: Admin access required }
+        "404": { description: Product not found }
+  /admin/stores:
+    post:
+      operationId: createStore
+      tags: [admin]
+      summary: Add a physical store location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/StoreInput" }
+      responses:
+        "201":
+          description: Created store
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Store" }
+        "400": { description: Invalid store data }
+        "401": { description: Admin access required }
+  /admin/stores/{id}:
+    patch:
+      operationId: updateStore
+      tags: [admin]
+      summary: Update a physical store location
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/StoreUpdate" }
+      responses:
+        "200":
+          description: Updated store
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Store" }
+        "400": { description: Invalid store data }
+        "401": { description: Admin access required }
+        "404": { description: Store not found }
+    delete:
+      operationId: deleteStore
+      tags: [admin]
+      summary: Delete a physical store location
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "204": { description: Store deleted }
+        "401": { description: Admin access required }
+        "404": { description: Store not found }
+  /admin/site-settings:
+    put:
+      operationId: updateSiteSettings
+      tags: [admin]
+      summary: Update public storefront content and settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SiteSettingsInput" }
+      responses:
+        "200":
+          description: Updated settings
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SiteSettings" }
+        "400": { description: Invalid settings }
+        "401": { description: Admin access required }
 components:
   schemas:
     HealthStatus:
@@ -33,4 +272,145 @@ components:
           type: string
       required:
         - status
+    Product:
+      type: object
+      required: [id, slug, name, description, priceInr, imageUrls, sizes, colors, category, collection, stock, isPublished, isFeatured, isNewArrival]
+      properties:
+        id: { type: integer }
+        slug: { type: string }
+        name: { type: string }
+        description: { type: ["string", "null"] }
+        priceInr: { type: ["number", "null"] }
+        imageUrls:
+          type: array
+          items: { type: string }
+        sizes:
+          type: array
+          items: { type: string }
+        colors:
+          type: array
+          items: { type: string }
+        category: { type: ["string", "null"] }
+        collection: { type: ["string", "null"] }
+        stock: { type: ["integer", "null"] }
+        isPublished: { type: boolean }
+        isFeatured: { type: boolean }
+        isNewArrival: { type: boolean }
+    ProductInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, minLength: 1 }
+        slug: { type: string }
+        description: { type: ["string", "null"] }
+        priceInr: { type: ["number", "null"], minimum: 0 }
+        imageUrls:
+          type: array
+          items: { type: string }
+        sizes:
+          type: array
+          items: { type: string }
+        colors:
+          type: array
+          items: { type: string }
+        category: { type: ["string", "null"] }
+        collection: { type: ["string", "null"] }
+        stock: { type: ["integer", "null"], minimum: 0 }
+        isPublished: { type: boolean }
+        isFeatured: { type: boolean }
+        isNewArrival: { type: boolean }
+    ProductUpdate:
+      type: object
+      properties:
+        name: { type: string, minLength: 1 }
+        slug: { type: string }
+        description: { type: ["string", "null"] }
+        priceInr: { type: ["number", "null"], minimum: 0 }
+        imageUrls:
+          type: array
+          items: { type: string }
+        sizes:
+          type: array
+          items: { type: string }
+        colors:
+          type: array
+          items: { type: string }
+        category: { type: ["string", "null"] }
+        collection: { type: ["string", "null"] }
+        stock: { type: ["integer", "null"], minimum: 0 }
+        isPublished: { type: boolean }
+        isFeatured: { type: boolean }
+        isNewArrival: { type: boolean }
+    Store:
+      type: object
+      required: [id, name, address, phone, whatsapp, openingHours, mapsUrl, imageUrl, description]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        address: { type: ["string", "null"] }
+        phone: { type: ["string", "null"] }
+        whatsapp: { type: ["string", "null"] }
+        openingHours: { type: ["string", "null"] }
+        mapsUrl: { type: ["string", "null"] }
+        imageUrl: { type: ["string", "null"] }
+        description: { type: ["string", "null"] }
+    StoreInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, minLength: 1 }
+        address: { type: ["string", "null"] }
+        phone: { type: ["string", "null"] }
+        whatsapp: { type: ["string", "null"] }
+        openingHours: { type: ["string", "null"] }
+        mapsUrl: { type: ["string", "null"] }
+        imageUrl: { type: ["string", "null"] }
+        description: { type: ["string", "null"] }
+    StoreUpdate:
+      type: object
+      properties:
+        name: { type: string, minLength: 1 }
+        address: { type: ["string", "null"] }
+        phone: { type: ["string", "null"] }
+        whatsapp: { type: ["string", "null"] }
+        openingHours: { type: ["string", "null"] }
+        mapsUrl: { type: ["string", "null"] }
+        imageUrl: { type: ["string", "null"] }
+        description: { type: ["string", "null"] }
+    SiteSettings:
+      type: object
+      required: [brandName, heroHeadline, heroSubheading, heroImageUrl, instagramUrl, categories, featuredCollectionTitle, featuredCollectionDescription, aboutStory]
+      properties:
+        brandName: { type: string }
+        heroHeadline: { type: string }
+        heroSubheading: { type: ["string", "null"] }
+        heroImageUrl: { type: ["string", "null"] }
+        instagramUrl: { type: string }
+        categories:
+          type: array
+          items: { type: string }
+        featuredCollectionTitle: { type: ["string", "null"] }
+        featuredCollectionDescription: { type: ["string", "null"] }
+        aboutStory: { type: ["string", "null"] }
+    SiteSettingsInput:
+      type: object
+      required: [brandName, heroHeadline, heroSubheading, heroImageUrl, instagramUrl, categories, featuredCollectionTitle, featuredCollectionDescription, aboutStory]
+      properties:
+        brandName: { type: string, minLength: 1 }
+        heroHeadline: { type: string, minLength: 1 }
+        heroSubheading: { type: ["string", "null"] }
+        heroImageUrl: { type: ["string", "null"] }
+        instagramUrl: { type: string }
+        categories:
+          type: array
+          items: { type: string }
+        featuredCollectionTitle: { type: ["string", "null"] }
+        featuredCollectionDescription: { type: ["string", "null"] }
+        aboutStory: { type: ["string", "null"] }
+    AdminAccessStatus:
+      type: object
+      required: [signedIn, isAdmin]
+      properties:
+        signedIn: { type: boolean }
+        isAdmin: { type: boolean }
 
